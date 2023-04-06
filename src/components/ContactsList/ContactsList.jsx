@@ -12,8 +12,9 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from 'react-redux';
+// import { deleteContact } from 'redux/contacts/contactsSlice';
 import { deleteContact } from 'redux/operations';
-import { getContacts } from 'redux/selectors/selectors';
+import { selectContacts } from 'redux/selectors';
 
 const style = {
   boxShadow: 1,
@@ -31,8 +32,11 @@ const getFilteredContacts = (contacts, filterValue) =>
 
 const MemoizedContactList = React.memo(() => {
   const dispatch = useDispatch();
+
   const handleDelete = id => dispatch(deleteContact(id));
-  const contactsRedux = useSelector(getContacts);
+
+  const contactsRedux = useSelector(selectContacts);
+
   const filterValue = useSelector(state => state.filter);
 
   const contactsArr = useMemo(

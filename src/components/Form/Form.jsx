@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// import { nanoid } from 'nanoid';
 
 import { FormControl } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -38,11 +39,13 @@ export default function ContactsForm() {
     e.preventDefault();
 
     const formObj = {
-      name: name,
-      phone: phone,
+      name,
+      phone,
     };
 
     dispatch(addContact(formObj));
+
+    // onSubmit(name, number, nanoid());
     resetForm();
   };
 
@@ -69,8 +72,8 @@ export default function ContactsForm() {
       />
       <TextField
         id="outlined-search"
-        label="Number"
-        name="number"
+        label="Phone"
+        name="phone"
         type="tel"
         value={phone}
       />

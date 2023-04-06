@@ -3,23 +3,30 @@ import ContactsForm from '../components/Form';
 import Filter from '../components/Filter';
 import MemoizedContactList from '../components/ContactsList';
 import Typography from '@mui/material/Typography';
-import { useSelector, useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operations';
-import { getContacts, getError, getIsLoading } from 'redux/selectors/selectors';
+import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
 
 const filterContacts = (contacts, filter) =>
   contacts.filter(el => el.name.toLowerCase().includes(filter));
 
 export default function App() {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
-  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  const contacts = useSelector(selectContacts);
   const filter = useSelector(state => state.filter);
+
   const filteredContacts = filterContacts(contacts, filter);
+
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
+
   return (
     <React.Fragment>
       <Typography
@@ -32,9 +39,16 @@ export default function App() {
       </Typography>
 
       <ContactsForm />
+
+      {isLoading && !error && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      )}
+
       {!isLoading && error && <div>Error</div>}
 
-      {contacts.length > 1 || filter !== '' ? <Filter /> : null}
+      {!isLoading && (contacts.length > 1 || filter !== '' ? <Filter /> : null)}
 
       {!isLoading && contacts.length > 0 && (
         <MemoizedContactList contacts={filteredContacts} />
