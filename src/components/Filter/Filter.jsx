@@ -10,8 +10,8 @@ function Filter() {
   const setFilterData = useCallback(
     e => {
       const { value } = e.currentTarget;
-      const valueLowercase = value.toLowerCase();
-      dispatch(setFilterValue(valueLowercase));
+      const valueLowerCase = value.toLowerCase();
+      dispatch(setFilterValue(valueLowerCase));
     },
     [dispatch]
   );

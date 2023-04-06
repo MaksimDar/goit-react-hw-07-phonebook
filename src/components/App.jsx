@@ -8,7 +8,12 @@ import Box from '@mui/material/Box';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operations';
-import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+  selectFilter,
+} from 'redux/selectors';
 
 const filterContacts = (contacts, filter) =>
   contacts.filter(el => el.name.toLowerCase().includes(filter));
@@ -19,7 +24,7 @@ export default function App() {
   const error = useSelector(selectError);
 
   const contacts = useSelector(selectContacts);
-  const filter = useSelector(state => state.filter);
+  const filter = useSelector(selectFilter);
 
   const filteredContacts = filterContacts(contacts, filter);
 

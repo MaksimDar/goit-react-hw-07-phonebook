@@ -14,7 +14,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from 'react-redux';
 // import { deleteContact } from 'redux/contacts/contactsSlice';
 import { deleteContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { selectContacts, selectFilter } from 'redux/selectors';
 
 const style = {
   boxShadow: 1,
@@ -28,7 +28,7 @@ const style = {
 };
 
 const getFilteredContacts = (contacts, filterValue) =>
-  contacts.filter(el => el.name.toLowerCase().includes(filterValue));
+  contacts.filter(contact => contact.name.toLowerCase().includes(filterValue));
 
 const MemoizedContactList = React.memo(() => {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const MemoizedContactList = React.memo(() => {
 
   const contactsRedux = useSelector(selectContacts);
 
-  const filterValue = useSelector(state => state.filter);
+  const filterValue = useSelector(selectFilter);
 
   const contactsArr = useMemo(
     () => getFilteredContacts(contactsRedux, filterValue),
