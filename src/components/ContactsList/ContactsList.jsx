@@ -12,7 +12,8 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/contacts/contactsSlice';
+import { deleteContact } from 'redux/operations';
+import { getContacts } from 'redux/selectors/selectors';
 
 const style = {
   boxShadow: 1,
@@ -30,8 +31,8 @@ const getFilteredContacts = (contacts, filterValue) =>
 
 const MemoizedContactList = React.memo(() => {
   const dispatch = useDispatch();
-
-  const contactsRedux = useSelector(state => state.contacts.contactList);
+  const handleDelete = id => dispatch(deleteContact(id));
+  const contactsRedux = useSelector(getContacts);
   const filterValue = useSelector(state => state.filter);
 
   const contactsArr = useMemo(
@@ -42,7 +43,7 @@ const MemoizedContactList = React.memo(() => {
   return (
     <Stack direction="column" justifyContent="flex-start" alignItems="center">
       <List sx={style} aria-label="contacts">
-        {contactsArr.map(({ name, number, id }) => {
+        {contactsArr.map(({ name, phone, id }) => {
           return (
             <ListItem
               key={id}
@@ -50,7 +51,7 @@ const MemoizedContactList = React.memo(() => {
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => dispatch(deleteContact(id))}
+                  onClick={() => handleDelete(id)}
                   color="error"
                 >
                   <DeleteIcon />
@@ -62,7 +63,7 @@ const MemoizedContactList = React.memo(() => {
                   <FaceIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={name} secondary={number} />
+              <ListItemText primary={name} secondary={phone} />
             </ListItem>
           );
         })}

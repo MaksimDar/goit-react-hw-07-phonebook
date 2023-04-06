@@ -4,11 +4,11 @@ import { FormControl } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contacts/contactsSlice';
+import { addContact } from 'redux/operations';
 
 export default function ContactsForm() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const dispatch = useDispatch();
 
@@ -20,8 +20,8 @@ export default function ContactsForm() {
         setName(value);
         break;
 
-      case 'number':
-        setNumber(value);
+      case 'phone':
+        setPhone(value);
         break;
 
       default:
@@ -31,7 +31,7 @@ export default function ContactsForm() {
 
   const resetForm = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   const handleSubmit = e => {
@@ -39,12 +39,10 @@ export default function ContactsForm() {
 
     const formObj = {
       name: name,
-      number: number,
+      phone: phone,
     };
 
     dispatch(addContact(formObj));
-
-    // onSubmit(name, number, nanoid());
     resetForm();
   };
 
@@ -74,7 +72,7 @@ export default function ContactsForm() {
         label="Number"
         name="number"
         type="tel"
-        value={number}
+        value={phone}
       />
       <Button variant="contained" size="small" type="submit">
         Add contact
