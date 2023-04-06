@@ -11,8 +11,7 @@ const filterContacts = (contacts, filter) =>
   contacts.filter(el => el.name.toLowerCase().includes(filter));
 
 export default function App() {
-  const filteredContacts = filterContacts(contacts, filter);
-
+  
   return (
     <React.Fragment>
       <Typography
